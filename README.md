@@ -33,7 +33,7 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
- <img src="https://github.com/ba-00001/TRIVIA_IOS/blob/main/trivia_ios_DEVICES.gif" width="800" alt="App GIF preview">
+ <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_gif.gif" width="800" alt="App GIF preview">
  
 ## App Preview
 
@@ -42,14 +42,14 @@ The following **additional** features are implemented:
 <figcaption>App Preview 1</figcaption>
 <div align="center">
   <figure>
-    <img src="https://github.com/ba-00001/TRIVIA_IOS/blob/main/TRIVIA_IOS_IMG_1.png" width="500" alt="Image 1">
+    <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_image1.png" width="500" alt="Image 1">
   </figure>
 </div>
 
   <figcaption align="center">App Preview 2</figcaption>
   <div align="center">
   <figure>
-    <img src="https://github.com/ba-00001/TRIVIA_IOS/blob/main/TRIVIA_IOS_IMG_2.png" width="500" alt="Image 2">
+    <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_imag2.png" width="500" alt="Image 2">
   </figure>
 </div>
 
