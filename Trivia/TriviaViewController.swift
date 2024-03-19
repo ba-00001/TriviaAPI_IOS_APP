@@ -23,77 +23,71 @@ class TriviaViewController: UIViewController {
     private var numCorrectQuestions = 0
     private var triviaQuestionService = TriviaQuestionService()
     
+   
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addGradient()
-        questionContainerView.layer.cornerRadius = 8.0
         fetchTriviaQuestions()
+        // Set the background color of the view controller's main view
+            view.backgroundColor = UIColor.systemBlue
     }
-    
+
     private func fetchTriviaQuestions() {
-        triviaQuestionService.fetchTriviaQuestions { [weak self] questions in
+        triviaQuestionService.fetchTriviaQuestions { [weak self] result in
             DispatchQueue.main.async {
-                if let questions = questions {
+                switch result {
+                case .success(let questions):
                     self?.questions = questions
-                    self?.currQuestionIndex = 0
-                    self?.updateQuestion(withQuestionIndex: 0)
-                } else {
-                    // Handle the error, e.g., show an alert to the user
+                    self?.updateUI()
+                case .failure(let error):
+                    print("Error fetching trivia questions: \(error)")
                 }
             }
         }
     }
-    
-    private func updateQuestion(withQuestionIndex questionIndex: Int) {
-        guard questionIndex < questions.count else { return }
+
+    private func updateUI() {
+        guard currQuestionIndex < questions.count else { return }
+        let currentQuestion = questions[currQuestionIndex]
         
-        let question = questions[questionIndex]
-        questionLabel.text = question.question
-        categoryLabel.text = question.category
-        currentQuestionNumberLabel.text = "Question \(questionIndex + 1) of \(questions.count)"
+        categoryLabel.text = currentQuestion.category
+        questionLabel.text = currentQuestion.question
+        currentQuestionNumberLabel.text = "Question \(currQuestionIndex + 1)/\(questions.count)"
         
-        let answers = (question.incorrectAnswers + [question.correctAnswer]).shuffled()
+        let answers = [currentQuestion.correctAnswer] + currentQuestion.incorrectAnswers
+        let shuffledAnswers = answers.shuffled()
         
-        answerButton0.setTitle(answers[0], for: .normal)
-        answerButton1.setTitle(answers[1], for: .normal)
-        answerButton2.setTitle(answers[2], for: .normal)
-        answerButton3.setTitle(answers[3], for: .normal)
+        answerButton0.setTitle(shuffledAnswers[0], for: .normal)
+        answerButton1.setTitle(shuffledAnswers[1], for: .normal)
+        answerButton2.setTitle(shuffledAnswers[2], for: .normal)
+        answerButton3.setTitle(shuffledAnswers[3], for: .normal)
     }
     
-    @IBAction func answerButtonTapped(_ sender: UIButton) {
-        guard let answer = sender.titleLabel?.text else { return }
+    @IBAction func answerSelected(_ sender: UIButton) {
+        guard currQuestionIndex < questions.count else { return }
+        let currentQuestion = questions[currQuestionIndex]
         
-        if isCorrectAnswer(answer) {
+        if sender.titleLabel?.text == currentQuestion.correctAnswer {
             numCorrectQuestions += 1
         }
         
         currQuestionIndex += 1
         if currQuestionIndex < questions.count {
-            updateQuestion(withQuestionIndex: currQuestionIndex)
+            updateUI()
         } else {
-            showFinalScore()
+            // Game finished, show results
+            showResults()
         }
     }
     
-    private func isCorrectAnswer(_ answer: String) -> Bool {
-        return answer == questions[currQuestionIndex].correctAnswer
-    }
-    
-    private func showFinalScore() {
+    private func showResults() {
         let alertController = UIAlertController(title: "Game Over", message: "Your score is \(numCorrectQuestions) out of \(questions.count).", preferredStyle: .alert)
-        let restartAction = UIAlertAction(title: "Restart", style: .default) { [weak self] action in
-            self?.fetchTriviaQuestions() // Restart game
-        }
-        alertController.addAction(restartAction)
-        present(alertController, animated: true)
-    }
-    
-    private func addGradient() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = view.bounds
-        gradientLayer.colors = [UIColor(red: 0.54, green: 0.88, blue: 0.99, alpha: 1.00).cgColor, UIColor(red: 0.51, green: 0.81, blue: 0.97, alpha: 1.00).cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        view.layer.insertSublayer(gradientLayer, at: 0)
+        alertController.addAction(UIAlertAction(title: "Restart", style: .default, handler: { [weak self] _ in
+            self?.currQuestionIndex = 0
+            self?.numCorrectQuestions = 0
+            self?.fetchTriviaQuestions()
+        }))
+        present(alertController, animated: true, completion: nil)
     }
 }

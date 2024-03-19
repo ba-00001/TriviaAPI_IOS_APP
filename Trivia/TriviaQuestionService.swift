@@ -8,29 +8,34 @@
 import Foundation
 
 class TriviaQuestionService {
-    func fetchTriviaQuestions(completion: @escaping ([TriviaQuestion]?) -> Void) {
+    func fetchTriviaQuestions(completion: @escaping (Result<[TriviaQuestion], Error>) -> Void) {
         let urlString = "https://opentdb.com/api.php?amount=10&type=multiple"
-        guard let url = URL(string: urlString) else {
-            completion(nil)
-            return
-        }
+        guard let url = URL(string: urlString) else { return }
 
-        let task = URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(nil)
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let data = data else {
+                completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
                 return
             }
 
             do {
                 let decoder = JSONDecoder()
-                let decodedResponse = try decoder.decode(TriviaResponse.self, from: data)
-                completion(decodedResponse.results)
+                let decodedData = try decoder.decode(TriviaResponse.self, from: data)
+                completion(.success(decodedData.results))
             } catch {
-                print("Error decoding JSON: \(error)")
-                completion(nil)
+                completion(.failure(error))
             }
-        }
-        task.resume()
+        }.resume()
     }
+}
+
+// Helper struct to match the JSON structure.
+struct TriviaResponse: Decodable {
+    let results: [TriviaQuestion]
 }
 
