@@ -42,14 +42,14 @@ The following **additional** features are implemented:
 <figcaption>App Preview 1</figcaption>
 <div align="center">
   <figure>
-    <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_image1.png" width="200" alt="Image 1">
+    <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_image1.png" width="300" alt="Image 1">
   </figure>
 </div>
 
   <figcaption align="center">App Preview 2</figcaption>
   <div align="center">
   <figure>
-    <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_imag2.png" width="200" alt="Image 2">
+    <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_imag2.png" width="300" alt="Image 2">
   </figure>
 </div>
 
