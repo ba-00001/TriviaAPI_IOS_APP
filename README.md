@@ -33,8 +33,8 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
- <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_gif.gif" width="800" alt="App GIF preview">
- <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_gif.gif" width="800" alt="App GIF preview">
+ <img src="https://github.com/ba-00001/TriviaAPI_IOS_APP/blob/main/triviaAPI_ios_gif.gif" width="500" alt="App GIF preview">
+
 ## App Preview
 
 <!-- Single row of images with names -->
